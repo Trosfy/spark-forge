@@ -136,14 +136,16 @@ automatically; or pass `acm_certificate_arn` to reuse an existing cert (e.g. a w
 ## Roadmap
 
 Direction, not commitments — `spark-forge` ships FLUX.2 + Hunyuan3D today, and the model
-registry and two-plugin layout are built to grow:
+registry and two-plugin layout are built to grow. Targets track current, ComfyUI-supported
+models — the ones modern accelerators are being optimized for:
 
-- **More image models** — SDXL, Qwen-Image, Z-Image, FLUX.1-Schnell as registry *families*
-  (a ComfyUI graph + profiles), added as each is installed and tested.
-- **More modalities** — `forge:video` (image-to-video) and `forge:audio` as sibling skills.
+- **More image models** — Stable Diffusion XL, Qwen-Image, Z-Image Turbo, and FLUX.2 Klein,
+  each a registry *family* (a ComfyUI graph + profiles), added as it's installed and tested.
+- **Image editing** — Qwen-Image-Edit, as a `forge:edit` skill.
+- **Audio** — music generation via ACE-Step 1.5 / 1.5-XL (`forge:audio`).
 - **`setup:models`** — scripted model-weight provisioning, once there's a clean per-platform source.
-- **Multi-platform** — model profiles for non-DGX-Spark hosts (e.g. Ryzen AI / ROCm); the ComfyUI
-  engine is already platform-agnostic, so this is mostly profiles + setup docs.
+- **Multi-platform** — profiles for non-DGX-Spark accelerators (Apple Silicon, AMD Ryzen AI Max+ /
+  Strix Halo); the ComfyUI engine is already platform-agnostic, so it's mostly profiles + setup docs.
 - **Hunyuan3D durability** — bind-mount the repo + weights out of the container's writable layer.
 
 ## Licenses
