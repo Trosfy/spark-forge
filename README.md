@@ -133,6 +133,19 @@ DynamoDB; Terraform ≥ 1.10). Lifecycle is configurable — `expire_days`,
 automatically; or pass `acm_certificate_arn` to reuse an existing cert (e.g. a wildcard).
 `public_read` / `--public` stays a simpler alternative for direct S3 URLs.
 
+## Roadmap
+
+Direction, not commitments — `spark-forge` ships FLUX.2 + Hunyuan3D today, and the model
+registry and two-plugin layout are built to grow:
+
+- **More image models** — SDXL, Qwen-Image, Z-Image, FLUX.1-Schnell as registry *families*
+  (a ComfyUI graph + profiles), added as each is installed and tested.
+- **More modalities** — `forge:video` (image-to-video) and `forge:audio` as sibling skills.
+- **`setup:models`** — scripted model-weight provisioning, once there's a clean per-platform source.
+- **Multi-platform** — model profiles for non-DGX-Spark hosts (e.g. Ryzen AI / ROCm); the ComfyUI
+  engine is already platform-agnostic, so this is mostly profiles + setup docs.
+- **Hunyuan3D durability** — bind-mount the repo + weights out of the container's writable layer.
+
 ## Licenses
 
 Code: [MIT](LICENSE). Models: see [THIRD_PARTY.md](THIRD_PARTY.md) — FLUX.2-dev and
