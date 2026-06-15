@@ -1,0 +1,27 @@
+# Copy to terraform.tfvars and fill in. terraform.tfvars is gitignored.
+# Defaults below = a private S3 bucket, no CloudFront, no custom domain (the free path).
+region      = "us-east-1"
+public_read = false
+# bucket_name defaults to spark-forge-<account-id>-<region>; uncomment to override:
+# bucket_name = "my-custom-bucket"
+
+# Lifecycle (cost hygiene; 0 disables each):
+expire_days            = 90
+noncurrent_expire_days = 30
+abort_multipart_days   = 7
+
+# Optional CDN for stable, headless downloads (bucket stays private via OAC):
+enable_cloudfront      = false
+cloudfront_price_class = "PriceClass_100"
+
+# Optional signed (gated) downloads — needs a CloudFront key pair.
+# Generate: openssl genrsa -out cloudfront_private_key.pem 2048
+#           openssl rsa -pubout -in cloudfront_private_key.pem -out cloudfront_public_key.pem
+cloudfront_signed          = false
+cloudfront_public_key_path = "" # e.g. /etc/forge/cloudfront_public_key.pem (read via file())
+
+# Optional custom domain. With route53_zone_name set (and no acm_certificate_arn), the
+# module auto-creates + DNS-validates the ACM cert (us-east-1) and the alias record.
+domain_name         = "" # e.g. spark-forge.example.com
+route53_zone_name   = "" # e.g. example.com
+acm_certificate_arn = "" # optional: reuse an existing cert (e.g. a wildcard)

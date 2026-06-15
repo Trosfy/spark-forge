@@ -1,0 +1,33 @@
+# runtime config lives in ~/.config/forge/, never in the repo — guard anyway
+config.local
+.forge.local
+
+# never commit private keys or local terraform backend config
+*.pem
+*.key
+infra/backend.tf
+
+# generated artifacts never belong in git history
+out/
+output/
+*.glb
+*.gltf
+*.png
+*.jpg
+*.jpeg
+*.webp
+*.safetensors
+*.ckpt
+
+# terraform (commit .terraform.lock.hcl, ignore state + local vars + provider cache)
+infra/.terraform/
+*.tfstate
+*.tfstate.*
+infra/terraform.tfvars
+
+# python
+__pycache__/
+*.pyc
+
+# os
+.DS_Store

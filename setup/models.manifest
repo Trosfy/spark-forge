@@ -1,0 +1,19 @@
+# Model manifest — files this stack expects.
+# Weights are NOT in this repo: download from upstream and accept their licenses
+# (see ../THIRD_PARTY.md). Sizes are approximate.
+
+## Image generation (FLUX.2) — place in ComfyUI's model dirs
+diffusion_models/flux2-dev-nvfp4-mixed.safetensors          ~21 GB   FLUX.2-dev, NVFP4-mixed (Blackwell)
+text_encoders/mistral_3_small_flux2_fp4_mixed.safetensors  ~11 GB   Mistral text encoder for FLUX.2, fp4-mixed
+vae/flux2-vae.safetensors                                  ~0.3 GB   FLUX.2 VAE
+loras/Flux_2-Turbo-LoRA_comfyui.safetensors                ~2.6 GB   optional speed LoRA (try 8 steps, guidance ~2.5)
+
+# Base model + license: black-forest-labs/FLUX.2-dev (Hugging Face). NVFP4 is a
+# Blackwell-specific quantization; on other GPUs substitute appropriate weights and
+# set FORGE_FLUX_MODEL / FORGE_FLUX_CLIP / FORGE_FLUX_VAE in your config.
+
+## Image-to-3D (Hunyuan3D-2.1) — auto-pulled into the container weight cache
+tencent/Hunyuan3D-2.1  ->  hunyuan3d-dit-v2-1/model.fp16.ckpt   ~7 GB   shape DiT
+
+# Downloaded by from_pretrained("tencent/Hunyuan3D-2.1") on first run, cached at
+# FORGE_HY3D_CACHE (default /root/.cache/hy3dgen) inside the ComfyUI container.

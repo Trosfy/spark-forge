@@ -1,0 +1,14 @@
+# State is LOCAL by default (no backend block). For shared/remote state, copy this
+# to backend.tf and edit, then run: terraform init -reconfigure
+# Uses S3 native state locking (use_lockfile) — no DynamoDB. Requires Terraform >= 1.10.
+# backend.tf is gitignored.
+
+terraform {
+  backend "s3" {
+    bucket       = "your-tfstate-bucket"
+    key          = "spark-forge/terraform.tfstate"
+    region       = "us-east-1"
+    encrypt      = true
+    use_lockfile = true
+  }
+}

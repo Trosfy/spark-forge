@@ -1,0 +1,9 @@
+{
+  "name": "setup",
+  "version": "0.1.0",
+  "description": "Provision the DGX Spark generation stack — setup:cdn (S3 + CloudFront download infra via Terraform); model/Hunyuan3D setup to follow.",
+  "author": {
+    "name": "Christopher Deodat",
+    "email": "deodat5500@gmail.com"
+  }
+}
