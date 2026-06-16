@@ -9,8 +9,9 @@
   "shift": 3.0,
   "sampler": "res_multistep",
   "scheduler": "simple",
-  "default_quant": "fp8",
+  "default_quant": "nvfp4",
   "quants": {
+    "nvfp4": { "unet": "z_image_turbo_nvfp4.safetensors" },
     "bf16": { "unet": "z_image_turbo_bf16.safetensors" },
     "fp8": { "unet": "z-image-turbo-fp8-e4m3fn.safetensors" },
     "gguf": { "unet": "z-image-turbo-Q4_K_M.gguf" }
