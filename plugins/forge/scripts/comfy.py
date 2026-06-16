@@ -35,12 +35,16 @@ class ComfyApi:
                 status = entry.get("status", {})
                 if status.get("status_str") == "error":
                     raise RuntimeError(json.dumps(status)[:2000])
-                files = [
-                    f"{item['subfolder']}/{item['filename']}" if item.get("subfolder") else item["filename"]
-                    for out in entry.get("outputs", {}).values()
-                    for key in ("images", "audio", "gifs")
-                    for item in out.get(key, [])
-                ]
+                files = []
+                for out in entry.get("outputs", {}).values():
+                    for val in out.values():
+                        if not isinstance(val, list):
+                            continue
+                        for item in val:
+                            if isinstance(item, dict) and "filename" in item:
+                                files.append(
+                                    f"{item['subfolder']}/{item['filename']}"
+                                    if item.get("subfolder") else item["filename"])
                 if files:
                     return files, time.time() - start
             time.sleep(poll)

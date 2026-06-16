@@ -8,6 +8,7 @@ _DEFAULTS = {
     "FORGE_COMFY_OUTPUT": "/opt/ComfyUI/output",
     "FORGE_MODEL": "flux2-dev",
     "FORGE_AUDIO_MODEL": "ace-step-1.5",
+    "FORGE_VIDEO_MODEL": "wan2.2-i2v-14b",
     "FORGE_QUANT": "",
     "FORGE_HUNYUAN_REPO": "/root/work/Hunyuan3D-2.1",
     "FORGE_HY3D_CACHE": "/root/.cache/hy3dgen",

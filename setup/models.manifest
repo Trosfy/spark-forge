@@ -28,6 +28,15 @@ checkpoints/ace_step_1.5_turbo_aio.safetensors             ~10 GB   ACE-Step 1.5
 # Base + license: ACE-Step/Ace-Step1.5 (Apache-2.0 code, MIT weights); ComfyUI build at
 # Comfy-Org/ace_step_1.5_ComfyUI_files. The AIO checkpoint loads via CheckpointLoaderSimple.
 
+## Video generation (WAN 2.2 14B I2V / first-last-frame) — from Comfy-Org/Wan_2.2_ComfyUI_Repackaged
+diffusion_models/wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors  ~14 GB  WAN 2.2 I2V, high-noise expert (fp8, default)
+diffusion_models/wan2.2_i2v_low_noise_14B_fp8_scaled.safetensors   ~14 GB  WAN 2.2 I2V, low-noise expert (fp8, default)
+text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors              ~6 GB    UMT5-XXL text encoder (fp8, shared)
+vae/wan_2.1_vae.safetensors                                       ~0.25 GB WAN 2.1 VAE (the 14B uses this, not the 2.2 VAE)
+
+# Base + license: Wan-AI/Wan2.2-I2V-A14B (Apache-2.0); ComfyUI build at Comfy-Org/Wan_2.2_ComfyUI_Repackaged
+# (VAE from Wan_2.1_ComfyUI_repackaged). The fp16 experts (~28 GB each) are the `--quant fp16` alternative.
+
 ## Image-to-3D (Hunyuan3D-2.1) — auto-pulled into the container weight cache
 tencent/Hunyuan3D-2.1  ->  hunyuan3d-dit-v2-1/model.fp16.ckpt   ~7 GB   shape DiT
 

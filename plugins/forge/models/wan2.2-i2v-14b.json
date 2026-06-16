@@ -1,0 +1,27 @@
+{
+  "family": "wan_video",
+  "clip": "umt5_xxl_fp8_e4m3fn_scaled.safetensors",
+  "vae": "wan_2.1_vae.safetensors",
+  "width": 832,
+  "height": 480,
+  "length": 81,
+  "fps": 16,
+  "steps": 20,
+  "split_step": 10,
+  "cfg": 4.0,
+  "shift": 8.0,
+  "sampler": "euler",
+  "scheduler": "simple",
+  "negative": "色调艳丽，过曝，静态，细节模糊不清，字幕，风格，作品，画作，画面，静止，整体发灰，最差质量，低质量，JPEG压缩残留，丑陋的，残缺的，多余的手指，画得不好的手部，画得不好的脸部，畸形的，毁容的，形态畸形的肢体，手指融合，静止不动的画面，杂乱的背景，三条腿，背景人很多，倒着走",
+  "default_quant": "fp8",
+  "quants": {
+    "fp8": {
+      "high_noise": "wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors",
+      "low_noise": "wan2.2_i2v_low_noise_14B_fp8_scaled.safetensors"
+    },
+    "fp16": {
+      "high_noise": "wan2.2_i2v_high_noise_14B_fp16.safetensors",
+      "low_noise": "wan2.2_i2v_low_noise_14B_fp16.safetensors"
+    }
+  }
+}

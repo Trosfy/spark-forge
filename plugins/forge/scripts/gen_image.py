@@ -44,8 +44,9 @@ def main():
 
     cfg = forge_config.load()
     profile = model_registry.load_profile(args.model or cfg["FORGE_MODEL"])
-    if model_registry.modality_of(profile) != "image":
-        raise SystemExit(f"'{args.model}' is an audio model — use gen_audio.py")
+    mod = model_registry.modality_of(profile)
+    if mod != "image":
+        raise SystemExit(f"'{args.model}' is a {mod} model — use gen_{mod}.py")
     quant = args.quant or cfg["FORGE_QUANT"] or None
     overrides = {
         "width": args.width, "height": args.height,
