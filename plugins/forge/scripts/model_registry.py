@@ -7,6 +7,7 @@ import os
 
 import acestep_graph
 import flux2_graph
+import wan_graph
 import zimage_graph
 
 _DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "models")
@@ -16,13 +17,20 @@ FAMILIES = {
     "flux2": flux2_graph.build,
     "z_image": zimage_graph.build,
     "ace_step": acestep_graph.build,
+    "wan_video": wan_graph.build,
 }
-# families whose output is audio, not an image (selects which CLI handles them)
+# non-image families, so each CLI handles (and lists) only its own modality
 AUDIO_FAMILIES = {"ace_step"}
+VIDEO_FAMILIES = {"wan_video"}
 
 
 def modality_of(profile):
-    return "audio" if profile.get("family") in AUDIO_FAMILIES else "image"
+    family = profile.get("family")
+    if family in AUDIO_FAMILIES:
+        return "audio"
+    if family in VIDEO_FAMILIES:
+        return "video"
+    return "image"
 
 
 def available():

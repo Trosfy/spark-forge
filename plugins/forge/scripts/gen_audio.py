@@ -42,8 +42,9 @@ def main():
 
     cfg = forge_config.load()
     profile = model_registry.load_profile(args.model or cfg["FORGE_AUDIO_MODEL"])
-    if model_registry.modality_of(profile) != "audio":
-        raise SystemExit(f"'{args.model}' is not an audio model — use gen_image.py")
+    mod = model_registry.modality_of(profile)
+    if mod != "audio":
+        raise SystemExit(f"'{args.model}' is a {mod} model — use gen_{mod}.py")
     quant = args.quant or cfg["FORGE_QUANT"] or None
     overrides = {"lyrics": args.lyrics, "duration": args.duration, "bpm": args.bpm}
     graph = model_registry.build(profile, args.tags, args.seed, args.prefix, overrides, quant=quant)
