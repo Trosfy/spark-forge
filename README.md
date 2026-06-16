@@ -23,10 +23,10 @@ This repo is both a **Claude Code plugin marketplace** (the `forge` plugin) and 
 ## Skills
 
 **`forge`** — use the stack:
-- **`/forge:image`** — text-to-image with FLUX.2 via ComfyUI.
+- **`/forge:image`** — text-to-image with FLUX.2, FLUX.2 Klein, or Z-Image Turbo via ComfyUI.
 - **`/forge:model`** — image-to-3D (GLB) with Hunyuan3D-2.1; optional decimation to low-poly.
 - **`/forge:audio`** — text-to-music with ACE-Step 1.5 (tags + lyrics → an MP3 track).
-- **`/forge:video`** — image-to-video / first-last-frame with WAN 2.2 14B (start [+ end] image → MP4).
+- **`/forge:video`** — image-to-video / first-last-frame with WAN 2.2 (14B + 5B) or HunyuanVideo 1.5 (start [+ end] image → MP4).
 - **`/forge:publish`** — push a local file/result off the headless box to S3+CloudFront and return a shareable (signed) download URL.
 
 **`setup`** — provision the stack:

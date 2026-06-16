@@ -1,0 +1,20 @@
+{
+  "family": "hunyuan_video",
+  "clip": "qwen_2.5_vl_7b_fp8_scaled.safetensors",
+  "clip2": "byt5_small_glyphxl_fp16.safetensors",
+  "vae": "hunyuanvideo15_vae_fp16.safetensors",
+  "width": 1280,
+  "height": 720,
+  "length": 121,
+  "fps": 24,
+  "steps": 20,
+  "cfg": 6.0,
+  "shift": 7.0,
+  "sampler": "euler",
+  "scheduler": "simple",
+  "negative": "",
+  "default_quant": "fp16",
+  "quants": {
+    "fp16": { "unet": "hunyuanvideo1.5_720p_i2v_fp16.safetensors" }
+  }
+}
