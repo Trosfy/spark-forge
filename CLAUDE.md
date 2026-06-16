@@ -19,8 +19,9 @@ and `setup` (cdn/hunyuan), plus the `forge-cdn` Terraform module. Public: Trosfy
 - Two plugins; the `:` namespace is the plugin name. `forge` = use the stack, `setup` = provision it.
 - Model registry (`plugins/forge/models/*.json`): **family = graph (code), model = profile (data),
   quant = a `quants` entry** that overrides only the weights that change. New quant → an entry; new
-  model → a profile JSON; new architecture → a family in `scripts/model_registry.py`. Validate with
-  `gen_image.py --print-graph` (CI builds every model × quant, no weights needed).
+  model → a profile JSON; new architecture → a family in `scripts/model_registry.py`. Image vs audio
+  is by family (`AUDIO_FAMILIES`) → `gen_image.py` / `gen_audio.py`, both sharing the registry.
+  Validate with `--print-graph` (CI builds every model × quant, no weights needed).
 - FLUX.2 weights are a ComfyUI **prerequisite** (see `setup/models.manifest`), not installed by this repo.
 - **Keep the repo platform-agnostic:** no account IDs, profiles, domains, or keys in tracked files —
   deploy specifics live in gitignored `infra/terraform.tfvars` / `infra/backend.tf` and `/etc/forge/`.

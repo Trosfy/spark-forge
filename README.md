@@ -25,6 +25,7 @@ This repo is both a **Claude Code plugin marketplace** (the `forge` plugin) and 
 **`forge`** — use the stack:
 - **`/forge:image`** — text-to-image with FLUX.2 via ComfyUI.
 - **`/forge:model`** — image-to-3D (GLB) with Hunyuan3D-2.1; optional decimation to low-poly.
+- **`/forge:audio`** — text-to-music with ACE-Step 1.5 (tags + lyrics → an MP3 track).
 - **`/forge:publish`** — push a local file/result off the headless box to S3+CloudFront and return a shareable (signed) download URL.
 
 **`setup`** — provision the stack:
@@ -33,7 +34,7 @@ This repo is both a **Claude Code plugin marketplace** (the `forge` plugin) and 
 
 ## Models & quantizations
 
-`forge:image` runs off a small registry: a **family** is a ComfyUI graph (code), a **model**
+`forge:image` and `forge:audio` run off one small registry: a **family** is a ComfyUI graph (code), a **model**
 is a profile (`plugins/forge/models/*.json`) of shared params, and each model carries a
 **`quants`** map — one entry per quantization (NVFP4 / BF16 / FP8 / GGUF) that overrides only
 the weights that change. Select one with `--quant` (or `FORGE_QUANT`):
@@ -42,6 +43,7 @@ the weights that change. Select one with `--quant` (or `FORGE_QUANT`):
 python3 plugins/forge/scripts/gen_image.py --list-models
 python3 plugins/forge/scripts/gen_image.py --model z-image-turbo --quant fp8 --prompt "..." --seed 7
 python3 plugins/forge/scripts/gen_image.py --model flux2-dev --print-graph --prompt x --seed 1   # dry-run, no weights
+python3 plugins/forge/scripts/gen_audio.py --model ace-step-1.5 --tags "lofi hip hop, mellow keys" --seed 7
 ```
 
 Adding a model is a profile JSON; a new architecture is one graph builder in `scripts/`

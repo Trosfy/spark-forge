@@ -1,0 +1,17 @@
+{
+  "family": "ace_step",
+  "duration": 120,
+  "steps": 8,
+  "cfg": 1.0,
+  "shift": 3.0,
+  "sampler": "euler",
+  "scheduler": "simple",
+  "bpm": 120,
+  "timesignature": "4",
+  "language": "en",
+  "keyscale": "C major",
+  "default_quant": "turbo-aio",
+  "quants": {
+    "turbo-aio": { "checkpoint": "ace_step_1.5_turbo_aio.safetensors" }
+  }
+}
