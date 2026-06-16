@@ -7,6 +7,10 @@ import os
 
 import acestep_graph
 import flux2_graph
+import flux2klein_graph
+import hunyuan_graph
+import qwen_image_graph
+import wan5b_graph
 import wan_graph
 import zimage_graph
 
@@ -15,13 +19,17 @@ _DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "models")
 # family -> graph builder(prompt, seed, prefix, params)
 FAMILIES = {
     "flux2": flux2_graph.build,
+    "flux2_klein": flux2klein_graph.build,
     "z_image": zimage_graph.build,
+    "qwen_image": qwen_image_graph.build,
     "ace_step": acestep_graph.build,
     "wan_video": wan_graph.build,
+    "wan_ti2v": wan5b_graph.build,
+    "hunyuan_video": hunyuan_graph.build,
 }
 # non-image families, so each CLI handles (and lists) only its own modality
 AUDIO_FAMILIES = {"ace_step"}
-VIDEO_FAMILIES = {"wan_video"}
+VIDEO_FAMILIES = {"wan_video", "wan_ti2v", "hunyuan_video"}
 
 
 def modality_of(profile):

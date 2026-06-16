@@ -1,0 +1,14 @@
+{
+  "family": "flux2_klein",
+  "clip": "qwen_3_4b.safetensors",
+  "vae": "flux2-vae.safetensors",
+  "width": 1024,
+  "height": 1024,
+  "steps": 4,
+  "guidance": 1.0,
+  "sampler": "euler",
+  "default_quant": "nvfp4",
+  "quants": {
+    "nvfp4": { "unet": "flux2-klein-4b-nvfp4.safetensors" }
+  }
+}

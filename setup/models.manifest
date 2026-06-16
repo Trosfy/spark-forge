@@ -1,44 +1,57 @@
 # Model manifest — files this stack expects.
 # Weights are NOT in this repo: download from upstream and accept their licenses
-# (see ../THIRD_PARTY.md). Sizes are approximate.
+# (see ../THIRD_PARTY.md). Sizes are approximate. Pick a model with --model / --quant
+# (gen_image.py / gen_audio.py / gen_video.py --list-models).
 
-## Image generation (FLUX.2) — place in ComfyUI's model dirs
+## Image — FLUX.2-dev (place in ComfyUI's model dirs)
 diffusion_models/flux2-dev-nvfp4-mixed.safetensors          ~21 GB   FLUX.2-dev, NVFP4-mixed (Blackwell)
 text_encoders/mistral_3_small_flux2_fp4_mixed.safetensors  ~11 GB   Mistral text encoder for FLUX.2, fp4-mixed
 vae/flux2-vae.safetensors                                  ~0.3 GB   FLUX.2 VAE
 loras/Flux_2-Turbo-LoRA_comfyui.safetensors                ~2.6 GB   optional speed LoRA (try 8 steps, guidance ~2.5)
+# Base + license: black-forest-labs/FLUX.2-dev. NVFP4 is Blackwell-specific.
 
-# Base model + license: black-forest-labs/FLUX.2-dev (Hugging Face). NVFP4 is a
-# Blackwell-specific quantization; on other GPUs substitute appropriate weights and
-# set FORGE_FLUX_MODEL / FORGE_FLUX_CLIP / FORGE_FLUX_VAE in your config.
+## Image — FLUX.2 Klein 4B (distilled, 4-step)
+diffusion_models/flux2-klein-4b-nvfp4.safetensors          ~2.5 GB  FLUX.2 Klein 4B, NVFP4 (Blackwell)
+text_encoders/qwen_3_4b.safetensors                        ~8 GB    Qwen3-4B encoder (shared w/ Z-Image; CLIPLoader type "flux2")
+vae/flux2-vae.safetensors                                  ~0.3 GB  FLUX.2 VAE (shared w/ flux2-dev)
+# Base + license: black-forest-labs FLUX.2 [klein] 4B (Apache-2.0). cfg ~1.0 @ 4 steps. nvfp4 = community Blackwell build.
 
-## Image generation (Z-Image Turbo) — from Comfy-Org/z_image_turbo (split_files/), into ComfyUI's model dirs
+## Image — Z-Image Turbo (from Comfy-Org/z_image_turbo, split_files/)
 diffusion_models/z_image_turbo_nvfp4.safetensors           ~4.2 GB  Z-Image Turbo, NVFP4 (Blackwell-native, default)
 diffusion_models/z_image_turbo_bf16.safetensors            ~12 GB   Z-Image Turbo, BF16 (non-Blackwell)
-text_encoders/qwen_3_4b.safetensors                        ~8 GB    Qwen3-4B text encoder (shared across quants)
+text_encoders/qwen_3_4b.safetensors                        ~8 GB    Qwen3-4B encoder (shared)
 vae/ae.safetensors                                         ~0.3 GB  Z-Image VAE
+# Base + license: Tongyi-MAI/Z-Image (Apache-2.0). --quant nvfp4/bf16/fp8/gguf; fp8/gguf are community (GGUF needs ComfyUI-GGUF).
 
-# Base model + license: Tongyi-MAI/Z-Image (Apache-2.0); ComfyUI build at Comfy-Org/z_image_turbo.
-# Pick ONE diffusion file + select with --quant (nvfp4/bf16/fp8/gguf) or FORGE_QUANT; encoder + VAE
-# are shared. fp8/gguf are community builds; GGUF needs the ComfyUI-GGUF custom node (UnetLoaderGGUF).
+# Image — Qwen-Image 20B: graph coded (qwen_image_graph.py) but NOT shipped in v0.2.0 —
+# the current Comfy-Org weights hit a conditioning-dim mismatch on this ComfyUI; pairing under
+# investigation (re-enable with a qwen-image profile once a matching model+encoder is confirmed).
+# diffusion_models/qwen_image_fp8_e4m3fn.safetensors  + text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors  + vae/qwen_image_vae.safetensors  (Qwen/Qwen-Image, Apache-2.0)
 
-## Music generation (ACE-Step 1.5) — from Comfy-Org/ace_step_1.5_ComfyUI_files, into ComfyUI's model dirs
+## Music — ACE-Step 1.5 (from Comfy-Org/ace_step_1.5_ComfyUI_files)
 checkpoints/ace_step_1.5_turbo_aio.safetensors             ~10 GB   ACE-Step 1.5 turbo, all-in-one (model+clip+vae)
+# Base + license: ACE-Step/Ace-Step1.5 (Apache-2.0 code, MIT weights). Loads via CheckpointLoaderSimple.
 
-# Base + license: ACE-Step/Ace-Step1.5 (Apache-2.0 code, MIT weights); ComfyUI build at
-# Comfy-Org/ace_step_1.5_ComfyUI_files. The AIO checkpoint loads via CheckpointLoaderSimple.
+## Video — WAN 2.2 14B I2V / first-last-frame (from Comfy-Org/Wan_2.2_ComfyUI_Repackaged)
+diffusion_models/wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors  ~14 GB  high-noise expert (fp8, default)
+diffusion_models/wan2.2_i2v_low_noise_14B_fp8_scaled.safetensors   ~14 GB  low-noise expert (fp8, default)
+text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors              ~6 GB    UMT5-XXL encoder (shared w/ 5B; CLIPLoader type "wan")
+vae/wan_2.1_vae.safetensors                                       ~0.25 GB WAN 2.1 VAE (the 14B uses this, NOT the 2.2 VAE)
+# Base + license: Wan-AI/Wan2.2-I2V-A14B (Apache-2.0). fp16 experts (~28 GB each) = --quant fp16.
 
-## Video generation (WAN 2.2 14B I2V / first-last-frame) — from Comfy-Org/Wan_2.2_ComfyUI_Repackaged
-diffusion_models/wan2.2_i2v_high_noise_14B_fp8_scaled.safetensors  ~14 GB  WAN 2.2 I2V, high-noise expert (fp8, default)
-diffusion_models/wan2.2_i2v_low_noise_14B_fp8_scaled.safetensors   ~14 GB  WAN 2.2 I2V, low-noise expert (fp8, default)
-text_encoders/umt5_xxl_fp8_e4m3fn_scaled.safetensors              ~6 GB    UMT5-XXL text encoder (fp8, shared)
-vae/wan_2.1_vae.safetensors                                       ~0.25 GB WAN 2.1 VAE (the 14B uses this, not the 2.2 VAE)
+## Video — WAN 2.2 5B TI2V (lighter single-model; from Comfy-Org/Wan_2.2_ComfyUI_Repackaged)
+diffusion_models/wan2.2_ti2v_5B_fp16.safetensors           ~10 GB   WAN 2.2 TI2V 5B (single model)
+vae/wan2.2_vae.safetensors                                 ~0.5 GB  WAN 2.2 VAE (high-compression 5B VAE; NOT the 2.1 VAE)
+# (UMT5 encoder shared with the 14B above.)
 
-# Base + license: Wan-AI/Wan2.2-I2V-A14B (Apache-2.0); ComfyUI build at Comfy-Org/Wan_2.2_ComfyUI_Repackaged
-# (VAE from Wan_2.1_ComfyUI_repackaged). The fp16 experts (~28 GB each) are the `--quant fp16` alternative.
+## Video — HunyuanVideo 1.5 720p I2V (from Comfy-Org/HunyuanVideo_1.5_repackaged)
+diffusion_models/hunyuanvideo1.5_720p_i2v_fp16.safetensors ~17 GB   HunyuanVideo 1.5 720p i2v (8.3B, fp16)
+text_encoders/qwen_2.5_vl_7b_fp8_scaled.safetensors        ~9 GB    Qwen2.5-VL-7B encoder (shared w/ Qwen-Image)
+text_encoders/byt5_small_glyphxl_fp16.safetensors          ~0.3 GB  ByT5 glyph encoder (DualCLIPLoader type "hunyuan_video_15")
+vae/hunyuanvideo15_vae_fp16.safetensors                    ~0.5 GB  HunyuanVideo 1.5 VAE
+# Base + license: tencent/HunyuanVideo-1.5 (see its license).
 
-## Image-to-3D (Hunyuan3D-2.1) — auto-pulled into the container weight cache
+## Image-to-3D — Hunyuan3D-2.1 (auto-pulled into the container weight cache)
 tencent/Hunyuan3D-2.1  ->  hunyuan3d-dit-v2-1/model.fp16.ckpt   ~7 GB   shape DiT
-
 # Downloaded by from_pretrained("tencent/Hunyuan3D-2.1") on first run, cached at
 # FORGE_HY3D_CACHE (default /root/.cache/hy3dgen) inside the ComfyUI container.
