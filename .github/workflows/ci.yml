@@ -24,6 +24,9 @@ jobs:
       - name: python compile
         run: python3 -m py_compile plugins/forge/scripts/*.py
 
+      - name: build model graphs
+        run: python3 plugins/forge/tests/test_graphs.py
+
       - name: terraform fmt
         uses: hashicorp/setup-terraform@v3
       - run: terraform -chdir=infra fmt -check -recursive
