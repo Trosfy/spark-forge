@@ -36,9 +36,10 @@ class ComfyApi:
                 if status.get("status_str") == "error":
                     raise RuntimeError(json.dumps(status)[:2000])
                 files = [
-                    f"{img['subfolder']}/{img['filename']}" if img.get("subfolder") else img["filename"]
+                    f"{item['subfolder']}/{item['filename']}" if item.get("subfolder") else item["filename"]
                     for out in entry.get("outputs", {}).values()
-                    for img in out.get("images", [])
+                    for key in ("images", "audio", "gifs")
+                    for item in out.get(key, [])
                 ]
                 if files:
                     return files, time.time() - start

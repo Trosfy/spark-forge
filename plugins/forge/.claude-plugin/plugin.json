@@ -1,7 +1,7 @@
 {
   "name": "forge",
   "version": "0.1.0",
-  "description": "Local generative AI on DGX Spark — FLUX.2 text-to-image and Hunyuan3D image-to-3D via ComfyUI, with S3 publishing.",
+  "description": "Local generative AI on DGX Spark — FLUX.2 / Z-Image text-to-image, ACE-Step text-to-music, and Hunyuan3D image-to-3D via ComfyUI, with S3 publishing.",
   "author": {
     "name": "Christopher Deodat",
     "email": "deodat5500@gmail.com"

@@ -22,6 +22,12 @@ vae/ae.safetensors                                         ~0.3 GB  Z-Image VAE
 # Pick ONE diffusion file + select with --quant (nvfp4/bf16/fp8/gguf) or FORGE_QUANT; encoder + VAE
 # are shared. fp8/gguf are community builds; GGUF needs the ComfyUI-GGUF custom node (UnetLoaderGGUF).
 
+## Music generation (ACE-Step 1.5) — from Comfy-Org/ace_step_1.5_ComfyUI_files, into ComfyUI's model dirs
+checkpoints/ace_step_1.5_turbo_aio.safetensors             ~10 GB   ACE-Step 1.5 turbo, all-in-one (model+clip+vae)
+
+# Base + license: ACE-Step/Ace-Step1.5 (Apache-2.0 code, MIT weights); ComfyUI build at
+# Comfy-Org/ace_step_1.5_ComfyUI_files. The AIO checkpoint loads via CheckpointLoaderSimple.
+
 ## Image-to-3D (Hunyuan3D-2.1) — auto-pulled into the container weight cache
 tencent/Hunyuan3D-2.1  ->  hunyuan3d-dit-v2-1/model.fp16.ckpt   ~7 GB   shape DiT
 

@@ -5,13 +5,24 @@
 import json
 import os
 
+import acestep_graph
 import flux2_graph
 import zimage_graph
 
 _DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", "models")
 
 # family -> graph builder(prompt, seed, prefix, params)
-FAMILIES = {"flux2": flux2_graph.build, "z_image": zimage_graph.build}
+FAMILIES = {
+    "flux2": flux2_graph.build,
+    "z_image": zimage_graph.build,
+    "ace_step": acestep_graph.build,
+}
+# families whose output is audio, not an image (selects which CLI handles them)
+AUDIO_FAMILIES = {"ace_step"}
+
+
+def modality_of(profile):
+    return "audio" if profile.get("family") in AUDIO_FAMILIES else "image"
 
 
 def available():
