@@ -1,13 +1,14 @@
 # Builds the FLUX.2 ComfyUI node graph (official image_flux2 template).
 # FLUX.2 is guidance-distilled: no negative-prompt channel.
 # params carries: unet, clip, vae, width, height, steps, guidance, optional lora.
+import graph_util
 
 
 def build(prompt, seed, prefix, params):
     lora = params.get("lora")
     model_src = ["14", 0] if lora else ["1", 0]
     graph = {
-        "1": {"class_type": "UNETLoader", "inputs": {"unet_name": params["unet"], "weight_dtype": "default"}},
+        "1": graph_util.unet_loader(params["unet"]),
         "2": {"class_type": "CLIPLoader", "inputs": {"clip_name": params["clip"], "type": "flux2", "device": "default"}},
         "3": {"class_type": "VAELoader", "inputs": {"vae_name": params["vae"]}},
         "4": {"class_type": "CLIPTextEncode", "inputs": {"text": prompt, "clip": ["2", 0]}},

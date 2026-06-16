@@ -1,0 +1,18 @@
+{
+  "family": "z_image",
+  "clip": "qwen_3_4b.safetensors",
+  "vae": "ae.safetensors",
+  "width": 1024,
+  "height": 1024,
+  "steps": 8,
+  "cfg": 1.0,
+  "shift": 3.0,
+  "sampler": "res_multistep",
+  "scheduler": "simple",
+  "default_quant": "fp8",
+  "quants": {
+    "bf16": { "unet": "z_image_turbo_bf16.safetensors" },
+    "fp8": { "unet": "z-image-turbo-fp8-e4m3fn.safetensors" },
+    "gguf": { "unet": "z-image-turbo-Q4_K_M.gguf" }
+  }
+}

@@ -31,6 +31,23 @@ This repo is both a **Claude Code plugin marketplace** (the `forge` plugin) and 
 - **`/setup:cdn`** — provision the S3 + CloudFront download infra (Terraform) and wire the config; plans first, applies on confirmation.
 - **`/setup:hunyuan`** — install Hunyuan3D-2.1 (image-to-3D) into the ComfyUI container for `/forge:model`.
 
+## Models & quantizations
+
+`forge:image` runs off a small registry: a **family** is a ComfyUI graph (code), a **model**
+is a profile (`plugins/forge/models/*.json`) of shared params, and each model carries a
+**`quants`** map — one entry per quantization (NVFP4 / BF16 / FP8 / GGUF) that overrides only
+the weights that change. Select one with `--quant` (or `FORGE_QUANT`):
+
+```
+python3 plugins/forge/scripts/gen_image.py --list-models
+python3 plugins/forge/scripts/gen_image.py --model z-image-turbo --quant fp8 --prompt "..." --seed 7
+python3 plugins/forge/scripts/gen_image.py --model flux2-dev --print-graph --prompt x --seed 1   # dry-run, no weights
+```
+
+Adding a model is a profile JSON; a new architecture is one graph builder in `scripts/`
+registered in `model_registry.FAMILIES`. `--print-graph` builds the graph with no ComfyUI or
+weights — the same check CI runs across every model × quant.
+
 ## Prerequisites
 
 - A DGX Spark (or any box) running **ComfyUI with the FLUX.2 nodes** in a container,

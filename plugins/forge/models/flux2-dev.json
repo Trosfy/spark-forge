@@ -1,10 +1,15 @@
 {
   "family": "flux2",
-  "unet": "flux2-dev-nvfp4-mixed.safetensors",
-  "clip": "mistral_3_small_flux2_fp4_mixed.safetensors",
   "vae": "flux2-vae.safetensors",
   "width": 1248,
   "height": 832,
   "steps": 20,
-  "guidance": 4.0
+  "guidance": 4.0,
+  "default_quant": "nvfp4",
+  "quants": {
+    "nvfp4": {
+      "unet": "flux2-dev-nvfp4-mixed.safetensors",
+      "clip": "mistral_3_small_flux2_fp4_mixed.safetensors"
+    }
+  }
 }

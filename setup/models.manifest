@@ -12,6 +12,17 @@ loras/Flux_2-Turbo-LoRA_comfyui.safetensors                ~2.6 GB   optional sp
 # Blackwell-specific quantization; on other GPUs substitute appropriate weights and
 # set FORGE_FLUX_MODEL / FORGE_FLUX_CLIP / FORGE_FLUX_VAE in your config.
 
+## Image generation (Z-Image Turbo) — place in ComfyUI's model dirs
+diffusion_models/z_image_turbo_bf16.safetensors            ~12 GB   Z-Image Turbo, BF16
+diffusion_models/z-image-turbo-fp8-e4m3fn.safetensors      ~6 GB    Z-Image Turbo, FP8 (default quant)
+diffusion_models/z-image-turbo-Q4_K_M.gguf                 ~4 GB    Z-Image Turbo, GGUF (needs the ComfyUI-GGUF node)
+text_encoders/qwen_3_4b.safetensors                        ~8 GB    Qwen3-4B text encoder (shared across quants)
+vae/ae.safetensors                                         ~0.3 GB  Z-Image VAE
+
+# Base model + license: Tongyi-MAI/Z-Image (Apache-2.0). Download ONE diffusion file and
+# select it with --quant (bf16/fp8/gguf) or FORGE_QUANT; the encoder + VAE are shared.
+# GGUF needs the ComfyUI-GGUF custom node (UnetLoaderGGUF).
+
 ## Image-to-3D (Hunyuan3D-2.1) — auto-pulled into the container weight cache
 tencent/Hunyuan3D-2.1  ->  hunyuan3d-dit-v2-1/model.fp16.ckpt   ~7 GB   shape DiT
 
