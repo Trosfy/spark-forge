@@ -5,20 +5,17 @@
   "owner": {
     "name": "Christopher Deodat"
   },
-  "metadata": {
-    "pluginRoot": "./plugins"
-  },
   "plugins": [
     {
       "name": "forge",
-      "source": "forge",
+      "source": "./plugins/forge",
       "description": "Generate images (FLUX.2) and 3D models (Hunyuan3D image-to-3D) locally on a DGX Spark via ComfyUI; publish results to S3/CloudFront.",
       "category": "generative-ai",
       "tags": ["image-generation", "image-to-3d", "flux", "comfyui", "dgx-spark"]
     },
     {
       "name": "setup",
-      "source": "setup",
+      "source": "./plugins/setup",
       "description": "Provision the DGX Spark generation stack: setup:cdn stands up the S3 + CloudFront download infrastructure via Terraform (model/Hunyuan3D setup to follow).",
       "category": "generative-ai",
       "tags": ["terraform", "aws", "cloudfront", "s3", "dgx-spark"]
