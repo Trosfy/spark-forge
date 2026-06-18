@@ -2,6 +2,8 @@
 # Text-to-image via a model profile (default flux2-dev) on a local ComfyUI instance.
 import argparse
 import json
+import os
+import shutil
 
 import comfy
 import forge_config
@@ -29,6 +31,8 @@ def main():
     ap.add_argument("--steps", type=int, default=None)
     ap.add_argument("--guidance", type=float, default=None)
     ap.add_argument("--lora", default=None, help="lora filename in ComfyUI's loras dir")
+    ap.add_argument("--ref", action="append", default=None, metavar="PATH",
+                    help="reference image to condition on (FLUX.2 only; repeatable for multi-reference)")
     ap.add_argument("--prefix", default="forge/image")
     ap.add_argument("--list-models", action="store_true", help="list available models + quants and exit")
     ap.add_argument("--print-graph", action="store_true", help="build and print the graph JSON; do not run ComfyUI")
@@ -52,6 +56,11 @@ def main():
         "width": args.width, "height": args.height,
         "steps": args.steps, "guidance": args.guidance, "lora": args.lora,
     }
+    if args.ref:
+        for path in args.ref:
+            if not os.path.isfile(path):
+                raise SystemExit(f"reference image not found: {path}")
+        overrides["ref_images"] = [os.path.basename(p) for p in args.ref]
     graph = model_registry.build(profile, args.prompt, args.seed, args.prefix, overrides, quant=quant)
 
     if args.print_graph:
@@ -59,6 +68,13 @@ def main():
         return
 
     comfyui = comfy.Comfy(cfg)
+    if args.ref:
+        input_dir = cfg["FORGE_INPUT_DIR"] or comfyui.container.host_path_for(cfg["FORGE_COMFY_INPUT"])
+        for path in args.ref:
+            if input_dir:
+                shutil.copy(path, os.path.join(input_dir, os.path.basename(path)))
+            else:
+                comfyui.container.copy_in(path, cfg["FORGE_COMFY_INPUT"])
     prompt_id = comfyui.api.submit(graph)
     print(f"prompt_id={prompt_id}", flush=True)
     if args.no_wait:

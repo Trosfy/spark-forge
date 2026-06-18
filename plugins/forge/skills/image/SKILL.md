@@ -19,13 +19,18 @@ restart the container: `docker restart "$FORGE_COMFY_CONTAINER"` (default `comfy
 
     python3 "${CLAUDE_PLUGIN_ROOT}/scripts/gen_image.py" \
       --prompt "<prompt>" --seed <int> \
-      [--model flux2-dev] [--width …] [--height …] [--steps …] [--guidance …] [--prefix forge/image]
+      [--model flux2-dev] [--width …] [--height …] [--steps …] [--guidance …] \
+      [--ref <image> …] [--prefix forge/image]
 
 - `--model` selects a profile from `models/` (default `FORGE_MODEL` = `flux2-dev`).
   Each profile carries its weights + default params; the flags above override them.
   Add more profiles to `models/` (a same-graph variant is data; a new architecture
   needs a family in `model_registry.py`).
 - FLUX.2 is guidance-distilled — **no negative prompt**; phrase exclusions positively.
+- `--ref <image>` conditions FLUX.2 on a **reference image** (repeatable for
+  multi-reference). The file is copied into ComfyUI's input dir, VAE-encoded, and
+  spliced into the prompt conditioning via `ReferenceLatent` — FLUX.2's native
+  mechanism for locking a subject's look/identity or a palette. FLUX.2 family only.
 - The seed is explicit and required; reuse it to reproduce, vary it to explore.
 
 Each result is printed as `output: <path>`.

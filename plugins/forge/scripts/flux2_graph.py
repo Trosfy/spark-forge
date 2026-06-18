@@ -1,11 +1,15 @@
 # Builds the FLUX.2 ComfyUI node graph (official image_flux2 template).
 # FLUX.2 is guidance-distilled: no negative-prompt channel.
-# params carries: unet, clip, vae, width, height, steps, guidance, optional lora.
+# params carries: unet, clip, vae, width, height, steps, guidance, optional lora,
+# and optional ref_images (filenames already in ComfyUI's input dir). Each reference
+# is VAE-encoded and spliced into the conditioning via ReferenceLatent — FLUX.2's
+# native multi-reference mechanism (chain one node per image).
 import graph_util
 
 
 def build(prompt, seed, prefix, params):
     lora = params.get("lora")
+    refs = params.get("ref_images") or []
     model_src = ["14", 0] if lora else ["1", 0]
     graph = {
         "1": graph_util.unet_loader(params["unet"]),
@@ -29,4 +33,18 @@ def build(prompt, seed, prefix, params):
     if lora:
         graph["14"] = {"class_type": "LoraLoaderModelOnly", "inputs": {
             "lora_name": lora, "strength_model": 1.0, "model": ["1", 0]}}
+    # Reference images: LoadImage -> scale -> VAEEncode -> ReferenceLatent, chained so
+    # each image appends to the conditioning the guider reads (node "6").
+    cond = ["5", 0]
+    nid = 20
+    for fn in refs:
+        load, scale, enc, ref = str(nid), str(nid + 1), str(nid + 2), str(nid + 3)
+        graph[load] = {"class_type": "LoadImage", "inputs": {"image": fn}}
+        graph[scale] = {"class_type": "FluxKontextImageScale", "inputs": {"image": [load, 0]}}
+        graph[enc] = {"class_type": "VAEEncode", "inputs": {"pixels": [scale, 0], "vae": ["3", 0]}}
+        graph[ref] = {"class_type": "ReferenceLatent", "inputs": {"conditioning": cond, "latent": [enc, 0]}}
+        cond = [ref, 0]
+        nid += 4
+    if refs:
+        graph["6"]["inputs"]["conditioning"] = cond
     return graph
